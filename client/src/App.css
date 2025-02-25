@@ -1,0 +1,245 @@
+.primary-bg {
+  background-color: #000000;
+}
+.secondary-bg {
+  background-color: #1d1d1d;
+}
+
+.panel-bg {
+  background-color: #1d1d1d;
+}
+
+.active-panel-bg {
+  background-color: #494949;
+}
+
+.side-panel {
+  border-right: #494949 solid .5px;
+}
+
+.bottom-panel {
+  border-bottom: #494949 solid .5px;
+}
+
+.ant-input, .ant-input-password {
+  color: #ffffff;
+  /* Text color */
+  border: 1px solid #D9D9D9;
+  /* Default border color */
+  background-color: transparent;
+}
+
+/* Active (Focused) Input Border */
+.ant-input:focus,
+.ant-input-focused,
+.ant-input-password:focus {
+  /* border-color: #ffffff !important; */
+  /* Active border */
+  box-shadow: 0 0 5px rgba(119, 91, 245, 0.5);
+  /* Soft glow effect */
+}
+
+.ant-input:-webkit-autofill,
+.ant-input:-webkit-autofill:hover,
+.ant-input:-webkit-autofill:focus,
+.ant-input:-webkit-autofill:active {
+  background-color: transparent !important;
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Placeholder Color */
+.ant-input::placeholder,
+.ant-input-password::placeholder {
+  color: #B0B3B8 !important;
+  opacity: 1;
+}
+
+.ant-input:hover,
+.ant-input-password {
+  background-color: transparent;
+  /* border-color: #494949 !important; */
+}
+
+.ant-input-password-icon {
+  color: #fff !important;
+}
+
+.custom-modal .ant-modal-content {
+  background-color: #1d1d1d !important;
+  /* Dark background */
+  color: #FFFFFF !important;
+  /* White text */
+}
+
+.custom-popconfirm .ant-popconfirm-inner {
+  background-color: #d1d1d1 !important;
+  color: #fff !important;
+}
+
+.custom-popconfirm .ant-popconfirm-title {
+  color: #fff !important;
+}
+
+.custom-popconfirm .ant-btn-default {
+  background-color: #4d4d4d !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+.custom-tab .ant-tabs-tab {
+  color: #fff
+}
+
+.custom-scrollbar {
+  --sb-track-color: #000;
+  --sb-thumb-color: #494949;
+  --sb-size: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: var(--sb-size)
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 3px;
+
+}
+
+.previous-icon {
+  display: none;
+}
+
+.hover {
+  cursor: pointer;
+}
+
+.hover:hover {
+  background-color: #494949;
+}
+
+/* styles.css */
+.custom-segmented {
+  background-color: #494949 !important;
+  /* Light blue background */
+  /* border: 1px solid #1890ff !important; */
+  /* Blue border */
+  color: #fff !important;
+}
+
+.custom-segmented:hover {
+  color: #fff !important;
+}
+
+.custom-segmented .ant-segmented-item-selected {
+  background-color: #000 !important;
+}
+
+.custom-segmented .ant-segmented-thumb {
+  background-color: #000 !important;
+}
+
+.message-bubble {
+  max-width: 70%;
+  min-width: 80px;
+  position: relative;
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.message-bubble.sent {
+  /* background-color: #dcf8c6; */
+  /* WhatsApp green for sent */
+  color: #000;
+  border-bottom-right-radius: 0;
+  text-align: left;
+}
+
+.message-bubble.received {
+  /* background-color: #f1f0f0; */
+  /* Light gray for received */
+  color: #000;
+  border-bottom-left-radius: 0;
+  text-align: left;
+}
+
+.time {
+  display: block;
+  font-size: 8px;
+  color: rgba(0, 0, 0, 0.45);
+  margin-top: 5px;
+  text-align: right;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%; /* Adjust based on the container */
+  /* display: block; */
+}
+
+/* .latest-message {
+  display: block;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} */
+
+@supports not selector(::-webkit-scrollbar) {
+  custom-scrollbar {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
+}
+
+@media screen and (min-width: 960px) {
+  .list-container {
+    width: 50%;
+    min-width: 350px;
+    max-width: 450px;
+  }
+
+  .display-flex {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .previous-icon {
+    display: block;
+    font-size: 1.5em;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+
+  .list-container {
+    width: 100%;
+  }
+
+  .width-100 {
+    width: 100%;
+  }
+  .width-100 {
+    width: 100%;
+  }
+
+  .display-none {
+    display: none !important;
+  }
+
+  .display-block {
+    display: block !important;
+    width: 100% !important;
+  }
+}
+
