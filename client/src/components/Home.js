@@ -1,5 +1,5 @@
 import { AppstoreAddOutlined, ArrowLeftOutlined, LogoutOutlined, MoreOutlined, SearchOutlined, SettingOutlined, UsergroupAddOutlined, UserOutlined } from '@ant-design/icons'
-import { Image, Input, Popconfirm, Popover, Segmented } from 'antd'
+import { Image, Input, Popconfirm, Popover, Segmented, Spin } from 'antd'
 import React, { memo, useEffect, useState } from 'react'
 import UserList from './UserList'
 import axios from 'axios'
@@ -30,6 +30,7 @@ const Home = () => {
   const [typingList, setTypingList] = useState([])
   const [loadingId, setLoadingId] = useState('')
   const [searchText, setSearchText] = useState('')
+  const [fetchingList, setFethcingList] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -42,13 +43,10 @@ const Home = () => {
     if (!userId) return;
 
     socket.on('message received', (newMessage) => {
-      console.log("Received new message:", newMessage);
 
       if (!chatId || chatId !== newMessage.chat._id) {
-        console.log('unread')
         socket.emit('unread messages', { chatId: newMessage.chat._id, userId, seen: false, newList: true });
       } else {
-        console.log('read')
         socket.emit('unread messages', { chatId: newMessage.chat._id, userId, seen: true, newList: false });
         setChatsList(chats =>
           chats.map(chat =>
@@ -61,12 +59,10 @@ const Home = () => {
     });
 
     socket.on('unread chatlist', (list) => {
-      console.log(list, 'chatlist')
       setChatsList(list)
     })
 
     socket.on('typing', ({ name, typingChatId, id }) => {
-      console.log('typing', name);
 
       // Prevent duplicate entries
       setTypingList((list) => {
@@ -79,7 +75,6 @@ const Home = () => {
     });
 
     socket.on('stop typing', ({ id, typingChatId }) => {
-      console.log(typing, typingList, typingChatId);
 
       setTypingList((list) => list.filter((typeId) => typeId !== typingChatId));
 
@@ -212,6 +207,7 @@ const Home = () => {
   }
 
   const getChats = async () => {
+    setFethcingList(true)
     try {
       const config = {
         headers: {
@@ -228,6 +224,8 @@ const Home = () => {
       }
     } catch (err) {
       console.error(err)
+    } finally {
+      setFethcingList(false)
     }
   }
 
@@ -251,7 +249,7 @@ const Home = () => {
         setUsersList(data || [])
       }
     } catch (err) {
-      console.log('Error searching users:', err)
+      console.error('Error searching users:', err)
     }
   }
 
@@ -353,8 +351,17 @@ const Home = () => {
     setChatId('')
   }
 
+  const exitGroup = () => {
+    setShowModal(false)
+    setChatsList((usersList) => usersList.filter(exList => exList._id !== selectedChat._id))
+    setMessages([])
+    setSelectedChat(null)
+    setChatId('')
+  }
+
   return (
     <div className='d-flex vh-100 w-100'>
+      <Spin spinning={fetchingList} fullscreen/>
       <div className={`list-container primary-bg text-white side-panel h-100 ${showMessage ? 'display-none' : 'display-block'}`}>
         <div className='d-flex flex-column h-100'>
           <div >
@@ -367,7 +374,7 @@ const Home = () => {
               </Popover>
             </div>
             <hr />
-            {!usersList.length && <div className='px-2 d-flex justify-content-center'>
+            {!!chatsList.length && <div className='px-2 d-flex justify-content-center'>
               <Segmented
                 value={chatType}
                 onChange={(type) => setChatType(type)}
@@ -404,6 +411,7 @@ const Home = () => {
               selectedChat={selectedChat}
               loadingId={loadingId}
               setSelectedUser={getSelectedChats}
+              fetchingList={fetchingList}
             />
           </div>
         </div>
@@ -434,6 +442,7 @@ const Home = () => {
         isGroupUpdated={isGroupUpdated}
         setSelectedMenu={setSelectedMenu}
         setUserProfile={setUserProfile}
+        exitGroup={exitGroup}
       />
     </div>
   )

@@ -7,6 +7,7 @@ import axios from 'axios';
 
 const UserAuth = () => {
   const [activeTab, setActiveTab] = useState('login')
+  const [loading, setLoading] = useState(false)
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
@@ -16,7 +17,7 @@ const UserAuth = () => {
   }, [pathname])
 
   const onAuthinticate = async (payload, path = '', reset) => {
-    console.log(payload)
+    setLoading(true)
 
     try {
       const config = {
@@ -41,6 +42,8 @@ const UserAuth = () => {
       console.log(response)
     } catch (err) {
       console.error(err)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -48,12 +51,12 @@ const UserAuth = () => {
     {
       label: 'Login',
       key: 'login',
-      children: <Login onSubmit={onAuthinticate} />
+      children: <Login onSubmit={onAuthinticate} loading={loading} />
     },
     {
       label: 'Register',
       key: 'register',
-      children: <Register onSubmit={onAuthinticate} />
+      children: <Register onSubmit={onAuthinticate} loading={loading} />
     }
   ];
 

@@ -12,7 +12,6 @@ const GroupHandler = ({ setShowModal, groupInfo, isUpdate, cancelUpdate, isGroup
 
   useEffect(() => {
     if (groupInfo) {
-      console.log(groupInfo)
       setGroupName(groupInfo.chatName)
       setSelectedUsers(groupInfo.users)
     }
@@ -32,7 +31,6 @@ const GroupHandler = ({ setShowModal, groupInfo, isUpdate, cancelUpdate, isGroup
           'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
       }
-      console.log(JSON.stringify(payload, null, 2))
       const response = await axios.post('/api/chat/createGroup', payload, config)
       const status = response.status
       const data = response.data
@@ -62,7 +60,6 @@ const GroupHandler = ({ setShowModal, groupInfo, isUpdate, cancelUpdate, isGroup
           'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
       }
-      console.log(updatedChat)
       const response = await axios.post('/api/chat/updateGroup', { updatedChat }, config)
       const status = response.status
       const data = response.data

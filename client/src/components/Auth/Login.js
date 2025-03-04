@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Input } from 'antd'
 import { useForm } from 'react-hook-form'
 
-const Login = (prop) => {
+const Login = ({ onSubmit, loading }) => {
   const { Password } = Input
   const { setValue, register, handleSubmit, reset, formState: { errors }, watch  } = useForm({
     defaultValues: {
@@ -13,11 +13,9 @@ const Login = (prop) => {
   })
   const { email, password } = watch()
 
-  console.log(errors)
-
   return (
     <div>
-      <form onSubmit={handleSubmit((data) => prop.onSubmit(data, '/login', reset))}>
+      <form onSubmit={handleSubmit((data) => onSubmit(data, '/login', reset))}>
         <div style={{ marginBottom: '.5rem' }}>
           {/* <label>User Name</label> */}
           <Input
@@ -40,7 +38,7 @@ const Login = (prop) => {
           />
           <div className='text-danger'>{errors.password?.message}</div>
         </div>
-        <Button htmlType='submit' type='primary'>Login</Button>
+        <Button htmlType='submit' loading={loading} type='primary'>Login</Button>
       </form>
     </div>
   )

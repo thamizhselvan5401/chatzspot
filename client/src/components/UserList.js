@@ -6,7 +6,6 @@ const UserList = ({ users = [], chatType, userId, selectedChat, setSelectedUser,
 
   useEffect(() => {
     const list = users.filter(chat => chatType === 'group' ? chat.isGroupChat : !chat.isGroupChat)
-    console.log(list)
     setChatList(list)
   }, [chatType, users])
 
@@ -35,7 +34,6 @@ const UserList = ({ users = [], chatType, userId, selectedChat, setSelectedUser,
   };
 
   const RenderUsers = ({ name, avatar, user, type }) => {
-    console.log(avatar)
     return (<Spin spinning={loadingId === user._id}><div style={{ height: '55px' }} className={`w-100 mb-2 d-flex align-items-center px-2 rounded-2 hover text-white panel-bg ${selectedChat?._id === user._id ? 'active-panel-bg' : 'panel-bg'}`} onClick={() => {
       setSelectedUser({...user, type}, 'search')
       }}>
@@ -80,11 +78,9 @@ const UserList = ({ users = [], chatType, userId, selectedChat, setSelectedUser,
     <>
       {!!usersList.length ?
         usersList.map((user, i) => {
-          console.log(user)
           return <RenderUsers key={i} type='search' name={user.userName} avatar={user.avatar} user={user} />
         })
         : chatList.map((user, i) => {
-          console.log(user, 'chatList')
           return (
               user.type === 'search' ? <RenderUsers key={i} type='search' name={user.userName} avatar={user.avatar} user={user} />  : <RenderChats
               key={i}

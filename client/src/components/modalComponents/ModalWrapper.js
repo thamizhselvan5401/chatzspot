@@ -6,7 +6,7 @@ import GroupInfo from './GroupInfo';
 import Settings from './Settings';
 import { CloseOutlined } from '@ant-design/icons';
 
-const SelectedComponent = ({ selectedMenu, setShowModal, profileInfo = {}, isGroupUpdated, userId, setUserProfile }) => {
+const SelectedComponent = ({ selectedMenu, setShowModal, profileInfo = {}, isGroupUpdated, userId, setUserProfile, exitGroup }) => {
   const component = {
     createGroup: GroupHandler,
     profile: ProfileInfo,
@@ -17,18 +17,17 @@ const SelectedComponent = ({ selectedMenu, setShowModal, profileInfo = {}, isGro
   const props = {
     createGroup: { setShowModal },
     profile: { profileInfo },
-    group: { groupInfo: profileInfo, isGroupUpdated, userId },
+    group: { groupInfo: profileInfo, isGroupUpdated, userId, exitGroup },
     settings: { profileInfo, setUserProfile }
   }
 
   const ComponentToRender = component[selectedMenu];
 
-  console.log({...props[selectedMenu]})
-
   return ComponentToRender ? <ComponentToRender {...props[selectedMenu]} /> : null;
 };
 
-const ModalWrapper = ({ selectedMenu, setSelectedMenu, showModal, setShowModal, profileInfo, isGroupUpdated, userId, setUserProfile }) => {
+const ModalWrapper = (props) => {
+  const { showModal, setShowModal, setSelectedMenu } = props
   return (
     <div>
       <Modal
@@ -43,12 +42,7 @@ const ModalWrapper = ({ selectedMenu, setSelectedMenu, showModal, setShowModal, 
         }}
       >
         <SelectedComponent
-          selectedMenu={selectedMenu}
-          isGroupUpdated={isGroupUpdated}
-          setShowModal={setShowModal}
-          userId={userId}
-          profileInfo={profileInfo}
-          setUserProfile={setUserProfile}
+          {...props}
         />
       </Modal>
     </div>

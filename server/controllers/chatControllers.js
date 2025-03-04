@@ -135,14 +135,14 @@ const createGroupChat = asyncHandler(async (req, res) => {
 
 const updateGroupChat = asyncHandler(async (req, res) => {
   const { updatedChat } = req.body;
-  const {chatName, users, avatar} = updatedChat
+  const {chatName, users, avatar, exitGroup = true} = updatedChat
 
   if (!updatedChat) {
     res.status(400);
     throw new Error("Group Data is required");
   }
 
-  if (users.length < 2) {
+  if (users.length < 2 && !exitGroup) {
     return res.status(400)
       .send('More than 2 users are required to create a group chat');
   }

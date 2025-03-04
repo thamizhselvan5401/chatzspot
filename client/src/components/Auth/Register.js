@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import compressImage from '../utils/compressImage'
 import { useForm } from 'react-hook-form'
 
-const Register = ({ onSubmit }) => {
+const Register = ({ onSubmit, loading }) => {
   const [image, setImage] = useState(null)
   const { Password } = Input
 
@@ -11,7 +11,6 @@ const Register = ({ onSubmit }) => {
     setValue,
     handleSubmit,
     register,
-    getValues,
     formState: { errors },
     watch,
     reset,
@@ -122,7 +121,7 @@ const Register = ({ onSubmit }) => {
         </div>
 
         {/* Submit Button */}
-        <Button type='primary' htmlType='submit'>Register</Button>
+        <Button type='primary' loading={loading} htmlType='submit'>Register</Button>
       </form>
     </div>
   )
