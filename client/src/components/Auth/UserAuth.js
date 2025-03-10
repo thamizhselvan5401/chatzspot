@@ -37,7 +37,6 @@ const UserAuth = () => {
         !path && message.success('Account Created Successfully')
         // localStorage.setItem('userInfo', JSON.stringify(data.userAcc))
         reset()
-        navigate('/chats')
       }
       console.log(response)
     } catch (err) {

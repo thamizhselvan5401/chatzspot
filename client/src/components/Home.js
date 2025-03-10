@@ -8,7 +8,7 @@ import io from 'socket.io-client'
 import { useNavigate } from 'react-router-dom'
 import ModalWrapper from './modalComponents/ModalWrapper'
 
-const ENDPOINT = 'http://localhost:5000'
+const ENDPOINT = 'https://chatzspot.onrender.com/'
 let socket
 
 const Home = () => {
@@ -360,7 +360,7 @@ const Home = () => {
   }
 
   return (
-    <div className='d-flex vh-100 w-100'>
+    <div className='d-flex w-100' style={{ height: '100dvh' }}>
       <Spin spinning={fetchingList} fullscreen/>
       <div className={`list-container primary-bg text-white side-panel h-100 ${showMessage ? 'display-none' : 'display-block'}`}>
         <div className='d-flex flex-column h-100'>
