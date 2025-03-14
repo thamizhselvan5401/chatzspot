@@ -35,10 +35,10 @@ const UserAuth = () => {
       if (success) {
         localStorage.setItem('token', data.token)
         !path && message.success('Account Created Successfully')
+        navigate('/')
         // localStorage.setItem('userInfo', JSON.stringify(data.userAcc))
         reset()
       }
-      console.log(response)
     } catch (err) {
       console.error(err)
     } finally {

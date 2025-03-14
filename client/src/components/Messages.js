@@ -5,7 +5,6 @@ import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data"
 
 const Messages = ({ messages, userId, sendMessage, typingHandler }) => {
-  console.log(messages)
   const [draftMessage, setDraftMessage] = useState('');
   let lastDisplayedDate = null;
 

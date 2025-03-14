@@ -5,7 +5,7 @@ import UserList from './UserList'
 import axios from 'axios'
 import ChatPage from './ChatPage'
 import io from 'socket.io-client'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import ModalWrapper from './modalComponents/ModalWrapper'
 
 const ENDPOINT = 'https://chatzspot.onrender.com/'
@@ -32,12 +32,21 @@ const Home = () => {
   const [searchText, setSearchText] = useState('')
   const [fetchingList, setFethcingList] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     socket = io(ENDPOINT)
     getUserProfile()
     getChats()
   }, [])
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setShowMessage(false)
+      setSelectedChat(null)
+      setChatId('')
+    }
+  }, [location.pathname])
 
   useEffect(() => {
     if (!userId) return;
@@ -174,6 +183,7 @@ const Home = () => {
     setShowMessage(true)
     setMessages([])
     setSearchText('')
+    navigate(`/${chat._id}`, { replace: location.pathname !== '/' })
     if (type === 'search') {
       await findChat(chat)
       setUsersList([])
@@ -346,9 +356,10 @@ const Home = () => {
   }
 
   const unselectChat = () => {
-    setShowMessage(false)
-    setSelectedChat(null)
-    setChatId('')
+    // setShowMessage(false)
+    // setSelectedChat(null)
+    // setChatId('')
+    navigate('/')
   }
 
   const exitGroup = () => {

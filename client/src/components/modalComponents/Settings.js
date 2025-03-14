@@ -17,7 +17,6 @@ const Settings = ({ profileInfo, setUserProfile }) => {
   const { userName, email, avatar } = watch()
 
   useEffect(() => {
-    console.log(profileInfo)
     const { userName = '', email  = '', avatar = '', _id } = profileInfo
     reset({
       userName, email, avatar, _id
@@ -26,7 +25,6 @@ const Settings = ({ profileInfo, setUserProfile }) => {
 
   const updateProfile = async (updatedProfile) => {
     // setLoading(true)
-    console.log(updatedProfile)
     try {
       const config = {
         headers: {
@@ -41,7 +39,6 @@ const Settings = ({ profileInfo, setUserProfile }) => {
         // setUsers(data || [])
         // isGroupUpdated(data)
         // cancelUpdate('group', null)
-        console.log(data)
       }
     } catch (err) {
       console.error(err)
