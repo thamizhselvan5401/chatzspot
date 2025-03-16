@@ -1,12 +1,14 @@
-import { Button, Image, Input } from 'antd'
-import React, { useEffect } from 'react'
+import { Badge, Button, Image, Input, message } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import compressImage from '../utils/compressImage'
 import axios from 'axios'
+import { CloseCircleTwoTone } from '@ant-design/icons'
 
 const Settings = ({ profileInfo, setUserProfile }) => {
+  const [loading, setLoading] = useState(false)
 
-  const { setValue, handleSubmit, register, getValues, reset, watch } = useForm({
+  const { setValue, handleSubmit,  register, formState: { errors }, getValues, reset, watch } = useForm({
     defaultValues: {
       userName: '',
       email: '',
@@ -24,7 +26,7 @@ const Settings = ({ profileInfo, setUserProfile }) => {
   }, [])
 
   const updateProfile = async (updatedProfile) => {
-    // setLoading(true)
+    setLoading(true)
     try {
       const config = {
         headers: {
@@ -36,14 +38,13 @@ const Settings = ({ profileInfo, setUserProfile }) => {
       const status = response.status
       const data = response.data
       if (status === 200) {
-        // setUsers(data || [])
-        // isGroupUpdated(data)
-        // cancelUpdate('group', null)
+        setUserProfile(data)
+        message.success('Profile updated successfully')
       }
     } catch (err) {
       console.error(err)
     } finally {
-      // setLoading(false)
+      setLoading(false)
     }
   }
 
@@ -51,9 +52,13 @@ const Settings = ({ profileInfo, setUserProfile }) => {
     <div>
       <form onSubmit={handleSubmit((data) => updateProfile(data, '', reset))}>
         <div style={{ marginBottom: '.5rem' }}>
-          <label htmlFor='image_upload' className='d-flex justify-content-center' style={{ cursor: 'pointer' }}>
-            <Image style={{ height: '80px', width: '80px', borderRadius: '50%', border: '2px solid black' }} preview={false} src={avatar || 'user.jpg'} />
-          </label>
+          <div className='d-flex justify-content-center'>
+            <label htmlFor='image_upload' style={{ cursor: 'pointer' }}>
+              <Badge count={avatar && <div onClick={(e) => {e.stopPropagation(); e.preventDefault(); setValue('avatar', null)}} className='bg-bright rounded'><CloseCircleTwoTone twoToneColor={'#F00'}/></div>} style={{ fontSize: '16px' }} status='error' className='bg-primary' offset={[-10, 10]} styles={{ root: {borderRadius: '50%'} }}>
+                <Image style={{ height: '80px', width: '80px', borderRadius: '50%', border: '2px solid black' }} preview={false} src={avatar || 'user.jpg'} />
+              </Badge>
+            </label>
+          </div>
           <Input
             style={{ display: 'none' }}
             type='file'
@@ -82,6 +87,7 @@ const Settings = ({ profileInfo, setUserProfile }) => {
           <Input
             placeholder='User Name'
             value={userName}
+            className={`ant-input bg-transparent ${errors.userName ? 'border-danger' : ''}`}
             {...register('userName', { required: true })}
             onChange={(e) => setValue('userName', e.target.value)}
           />
@@ -92,12 +98,13 @@ const Settings = ({ profileInfo, setUserProfile }) => {
             type='email'
             value={email}
             placeholder='Email'
+            className={`ant-input bg-transparent ${errors.email ? 'border-danger' : ''}`}
             {...register('email', { required: true })}
             onChange={(e) => setValue('email', e.target.value)}
           />
         </div>
         <div className='d-flex justify-content-end mt-3'>
-          <Button type='primary' htmlType='submit'>Update</Button>
+          <Button type='primary' loading={loading} htmlType='submit'>Update</Button>
         </div>
       </form>
     </div>
