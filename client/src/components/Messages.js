@@ -54,9 +54,10 @@ const Messages = ({ messages, userId, sendMessage, typingHandler }) => {
                     }`}
                 >
                   <div
-                    className={`p-2 rounded-3 message-bubble text-white ${message.sender._id === userId ? 'sent panel-bg' : 'received panel-bg'
-                      }`}
+                    className={`px-2 rounded-3 message-bubble text-white ${message.sender._id === userId ? 'sent panel-bg py-1' : 'received panel-bg'
+                      } ${message.chat.isGroupChat ? '' : 'py-1'}`}
                   >
+                    {message.chat.isGroupChat && message.sender._id !== userId && <div className="text-secondary">{message.sender.userName}</div>}
                     <span>{message.content}{message.sending ? <Spin className='ms-2'/> : null}</span>
                     <span className="time text-secondary">{message.sending ? <ClockCircleOutlined /> : formattedTime}</span>
                   </div>
