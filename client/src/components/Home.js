@@ -38,6 +38,7 @@ const Home = () => {
     socket = io(ENDPOINT)
     getUserProfile()
     getChats()
+    navigate('/', { replace: true })
   }, [])
 
   useEffect(() => {
@@ -359,7 +360,7 @@ const Home = () => {
     // setShowMessage(false)
     // setSelectedChat(null)
     // setChatId('')
-    navigate('/')
+    navigate('/', { replace: true })
   }
 
   const exitGroup = () => {
