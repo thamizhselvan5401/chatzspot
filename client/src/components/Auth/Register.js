@@ -1,10 +1,10 @@
-import { Button, Image, Input } from 'antd'
-import React, { useState } from 'react'
+import { Badge, Button, Image, Input } from 'antd'
+import React from 'react'
 import compressImage from '../utils/compressImage'
 import { useForm } from 'react-hook-form'
+import { CloseCircleTwoTone } from '@ant-design/icons'
 
 const Register = ({ onSubmit, loading }) => {
-  const [image, setImage] = useState(null)
   const { Password } = Input
 
   const {
@@ -16,7 +16,6 @@ const Register = ({ onSubmit, loading }) => {
     reset,
     trigger
   } = useForm({
-    mode: 'onChange', // Enables real-time validation
     defaultValues: {
       userName: '',
       password: '',
@@ -26,20 +25,18 @@ const Register = ({ onSubmit, loading }) => {
     }
   })
 
-  const passwordValue = watch('password') // Watch password field for changes
+  const {password, avatar} = watch() // Watch password field for changes
 
   return (
     <div>
       <form onSubmit={handleSubmit((data) => onSubmit(data, '', reset))}>
         {/* Profile Image Upload */}
         <div style={{ marginBottom: '.5rem' }}>
-          <div className='d-flex justify-content-center'>
-            <label className='text-white' htmlFor='image_upload' style={{ cursor: 'pointer' }}>
-              <Image
-                style={{ height: '70px', width: '70px', borderRadius: '50%' }}
-                preview={false}
-                src={image || 'user.jpg'}
-              />
+        <div className='d-flex justify-content-center'>
+            <label htmlFor='image_upload' style={{ cursor: 'pointer' }}>
+              <Badge count={avatar && <div onClick={(e) => {e.stopPropagation(); e.preventDefault(); setValue('avatar', null)}} className='bg-bright rounded'><CloseCircleTwoTone twoToneColor={'#F00'}/></div>} style={{ fontSize: '16px' }} status='error' className='bg-primary' offset={[-10, 10]} styles={{ root: {borderRadius: '50%'} }}>
+                <Image style={{ height: '80px', width: '80px', borderRadius: '50%', border: '2px solid black' }} preview={false} src={avatar || 'user.jpg'} />
+              </Badge>
             </label>
           </div>
           <Input
@@ -51,7 +48,6 @@ const Register = ({ onSubmit, loading }) => {
               const file = e.target.files[0]
               if (file) {
                 compressImage({ img: file }).then((compressed) => {
-                  setImage(compressed)
                   setValue('avatar', compressed, { shouldValidate: true }) // Validate after setting value
                 })
               }
@@ -112,7 +108,7 @@ const Register = ({ onSubmit, loading }) => {
             {...register('confirmPassword', {
               required: 'Confirm password is required.',
               validate: {
-                matchesPassword: value => value === passwordValue || 'Passwords do not match',
+                matchesPassword: value => value === password || 'Passwords do not match',
               },
             })}
             onChange={(e) => setValue('confirmPassword', e.target.value, { shouldValidate: true })}
